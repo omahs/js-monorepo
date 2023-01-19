@@ -10296,6 +10296,7 @@ __metadata:
     "@usecannon/cli": ^1.1.23
     ethers: ^5.7.2
     prettier: ^2.8.1
+    synthetix-v3-contracts: ^3.0.0-alpha.7
     typechain: ^8.1.0
     typescript: ^4.9.4
   languageName: unknown
@@ -36215,6 +36216,13 @@ __metadata:
     trezor-connect: 8.1.8
     walletlink: 2.0.2
   checksum: 6e899942f77ce9c4f842887819415b9067551d167966882a2fe38c2e0b1fef736eb9790977629618a879587f9e402e36e85ae9ee0dee2bcc901d8bde69a56204
+  languageName: node
+  linkType: hard
+
+"synthetix-v3-contracts@npm:^3.0.0-alpha.7":
+  version: 3.0.0-alpha.7
+  resolution: "synthetix-v3-contracts@npm:3.0.0-alpha.7"
+  checksum: a9e255e1f479bbe34311ec9bc55ea56f51423222a4112e6a64955586d90235eb7e307458e6fa574cfc7b762cdf76743f1f4aee91a7d806657a85465f7c0e726d
   languageName: node
   linkType: hard
 

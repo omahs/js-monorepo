@@ -9,8 +9,7 @@ const { runTypeChain } = require('typechain');
 // We don't want to expose internal modules and should only interact with Proxy contracts
 const CONTRACTS_WHITELIST = ['AccountProxy', 'CoreProxy', 'USDProxy', 'oracle_manager.Proxy'];
 
-async function prepareContracts(network) {
-  const deployments = path.join(__dirname, 'deployments', network);
+async function prepareContracts({ deployments, network }) {
   const contracts = await Promise.all(
     (
       await fs.readdir(deployments, { withFileTypes: true })
@@ -95,11 +94,26 @@ async function run() {
   const prettierOptions = JSON.parse(await fs.readFile('../../.prettierrc', 'utf8'));
 
   for await (const network of networks) {
-    const contracts = await prepareContracts(network);
     await fs.mkdir(`cache/${network}/types`, { recursive: true });
-    await generateTypes({ network, contracts, prettierOptions });
     await fs.mkdir(`src/${network}`, { recursive: true });
+
+    const contracts = await prepareContracts({
+      deployments: path.join(
+        path.dirname(require.resolve('synthetix-v3-contracts/package.json')),
+        'deploys',
+        network
+      ),
+    });
+    await generateTypes({ network, contracts, prettierOptions });
     await generateContracts({ network, contracts, prettierOptions });
+
+    const contractsExtra = await prepareContracts({
+      deployments: path.join(__dirname, 'deployments', network),
+      network,
+    });
+    await generateTypes({ network, contracts: contractsExtra, prettierOptions });
+    await generateContracts({ network, contracts: contractsExtra, prettierOptions });
+
     await fs.rm(`cache/${network}/types`, { recursive: true, force: true });
   }
 }
